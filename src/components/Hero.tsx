@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaTwitter, FaDownload, FaEnvelope, FaBriefcase } from 'react-icons/fa';
@@ -14,10 +14,87 @@ const socialLinks = [
   { icon: FaTwitter, url: 'https://twitter.com' },
 ];
 
-const Hero = () => {
+const PatternSquare = ({ x, y, mouseX, mouseY }) => {
+  const maxDistance = 150; // Increased range for hero section
+  
+  const distance = Math.sqrt(
+    Math.pow(x - mouseX, 2) + Math.pow(y - mouseY, 2)
+  );
+  
+  const opacity = Math.max(0, 1 - distance / maxDistance);
+
   return (
-    <section className="min-h-screen flex items-center justify-center py-20">
-      <div className="text-center">
+    <motion.div
+      className="absolute w-4 h-4 border border-gray-600 dark:border-gray-400"
+      style={{
+        left: x,
+        top: y,
+        opacity,
+      }}
+      initial={{ scale: 0 }}
+      animate={{ scale: opacity }}
+      transition={{ duration: 0.2 }}
+    />
+  );
+};
+
+const BackgroundPattern = ({ mouseX, mouseY }) => {
+  const [squares, setSquares] = useState([]);
+
+  useEffect(() => {
+    const generateSquares = () => {
+      const newSquares = [];
+      const spacing = 35; // Slightly tighter grid
+      const width = window.innerWidth;
+      const height = window.innerHeight; // Full viewport height for hero
+
+      for (let x = 0; x < width; x += spacing) {
+        for (let y = 0; y < height; y += spacing) {
+          newSquares.push({ x, y });
+        }
+      }
+      setSquares(newSquares);
+    };
+
+    generateSquares();
+    window.addEventListener('resize', generateSquares);
+    return () => window.removeEventListener('resize', generateSquares);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {squares.map((square, i) => (
+        <PatternSquare
+          key={i}
+          x={square.x}
+          y={square.y}
+          mouseX={mouseX}
+          mouseY={mouseY}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Hero = () => {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <section 
+      className="min-h-screen flex items-center justify-center py-20 relative"
+      onMouseMove={handleMouseMove}
+    >
+      <BackgroundPattern mouseX={mousePos.x} mouseY={mousePos.y} />
+      
+      <div className="text-center relative z-10">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -45,7 +122,10 @@ const Hero = () => {
             Computer Science & Engineering Student
           </h2>
           <h3 className="text-xl text-primary font-semibold">
-            Specializing in Data Science
+            Specializing in Data Science and Engineering
+          </h3>
+          <h3 className="text-xl text-gray-500 font-semibold">
+            Minor in Mathematics
           </h3>
         </motion.div>
 
@@ -70,7 +150,7 @@ const Hero = () => {
             className="flex items-center text-gray-700 dark:text-gray-300 space-x-1"
           >
             <FaBriefcase className="text-2xl mr-2 space-y-4" />
-            <h3 className='font-bold'>Former Intern at</h3>
+            <h3 className='font-bold'>Former Intern at Sysco LABS</h3>
             <img src={SyscoLogo} alt="WSO2 Logo" width={100} height={40} />
           </motion.div>
         </motion.div>
