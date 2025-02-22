@@ -28,6 +28,7 @@ function App() {
   }, [darkMode]);
 
   return (
+    
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
       <div className="fixed top-4 right-4 z-50">
         <button
@@ -60,8 +61,12 @@ function App() {
           {'>_'}
         </button>
       </div>
+      
     </div>
+    
   );
 }
+
+
 
 export default App;
