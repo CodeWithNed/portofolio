@@ -1,20 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { TypeAnimation } from 'react-type-animation';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaTwitter, FaDownload, FaEnvelope, FaBriefcase } from 'react-icons/fa';
+import { IoSchool } from 'react-icons/io5';
 import SyscoLogo from '../assets/sysco.svg';
 import UOMLogo from '../assets/uom.svg';
 import CSELogo from '../assets/cse.svg';
 import photo from '../assets/photo.png';
-import { IoSchool } from 'react-icons/io5';
 
-const socialLinks = [
+interface SocialLink {
+  icon: React.ElementType;
+  url: string;
+}
+
+const socialLinks: SocialLink[] = [
   { icon: FaGithub, url: 'https://github.com' },
   { icon: FaLinkedin, url: 'https://linkedin.com' },
   { icon: FaTwitter, url: 'https://twitter.com' },
 ];
 
-const PatternSquare = ({ x, y, mouseX, mouseY }) => {
+interface PatternSquareProps {
+  x: number;
+  y: number;
+  mouseX: number;
+  mouseY: number;
+}
+
+const PatternSquare: React.FC<PatternSquareProps> = ({ x, y, mouseX, mouseY }) => {
   const maxDistance = 150; // Increased range for hero section
   
   const distance = Math.sqrt(
@@ -38,12 +49,22 @@ const PatternSquare = ({ x, y, mouseX, mouseY }) => {
   );
 };
 
-const BackgroundPattern = ({ mouseX, mouseY }) => {
-  const [squares, setSquares] = useState([]);
+interface BackgroundPatternProps {
+  mouseX: number;
+  mouseY: number;
+}
+
+interface Square {
+  x: number;
+  y: number;
+}
+
+const BackgroundPattern: React.FC<BackgroundPatternProps> = ({ mouseX, mouseY }) => {
+  const [squares, setSquares] = useState<Square[]>([]);
 
   useEffect(() => {
     const generateSquares = () => {
-      const newSquares = [];
+      const newSquares: Square[] = [];
       const spacing = 35; // Slightly tighter grid
       const width = window.innerWidth;
       const height = window.innerHeight; // Full viewport height for hero
@@ -76,10 +97,10 @@ const BackgroundPattern = ({ mouseX, mouseY }) => {
   );
 };
 
-const Hero = () => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+const Hero: React.FC = () => {
+  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePos({
       x: e.clientX - rect.left,
@@ -141,8 +162,8 @@ const Hero = () => {
           >
             <IoSchool className="text-2xl mr-2 space-y-4" />
             <h3 className='font-bold'>Undergraduate at University of Moratuwa</h3>
-            <img src={UOMLogo} alt="WSO2 Logo" width={40} height={40} />
-            <img src={CSELogo} alt="WSO2 Logo" width={60} height={40} />
+            <img src={UOMLogo} alt="UOM Logo" width={40} height={40} />
+            <img src={CSELogo} alt="CSE Logo" width={60} height={40} />
           </motion.div>
           
           <motion.div 
@@ -151,7 +172,7 @@ const Hero = () => {
           >
             <FaBriefcase className="text-2xl mr-2 space-y-4" />
             <h3 className='font-bold'>Former Intern at Sysco LABS</h3>
-            <img src={SyscoLogo} alt="WSO2 Logo" width={100} height={40} />
+            <img src={SyscoLogo} alt="Sysco Logo" width={100} height={40} />
           </motion.div>
         </motion.div>
 

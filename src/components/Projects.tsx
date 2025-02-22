@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion , AnimatePresence } from 'framer-motion';
 
 const categories = ['All', 'Web', 'Mobile', 'Data Science', 'Machine Learning'];
@@ -160,7 +160,7 @@ const Projects = () => {
             <motion.div
               key={project.title}
               variants={projectVariants}
-              onHoverStart={() => setHoveredIndex(index)}
+              onHoverStart={() => setHoveredIndex(null)}
               onHoverEnd={() => setHoveredIndex(null)}
               className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all"
             >

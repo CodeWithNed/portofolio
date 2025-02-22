@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const Terminal = ({ onClose }: { onClose: () => void }) => {
   const [input, setInput] = useState('');

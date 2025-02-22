@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-const achievements = [
+interface Achievement {
+  icon: string;
+  metric: string;
+  description: string;
+}
+
+const achievements: Achievement[] = [
   {
     icon: '🚀',
     metric: '10+ Projects',
@@ -25,8 +31,14 @@ const achievements = [
   },
 ];
 
-const PatternSquare = ({ x, y, mouseX, mouseY }) => {
-  const size = 20;
+interface PatternSquareProps {
+  x: number;
+  y: number;
+  mouseX: number;
+  mouseY: number;
+}
+
+const PatternSquare: React.FC<PatternSquareProps> = ({ x, y, mouseX, mouseY }) => {
   const maxDistance = 100;
   
   const distance = Math.sqrt(
@@ -50,15 +62,25 @@ const PatternSquare = ({ x, y, mouseX, mouseY }) => {
   );
 };
 
-const BackgroundPattern = ({ mouseX, mouseY }) => {
-  const [squares, setSquares] = useState([]);
+interface BackgroundPatternProps {
+  mouseX: number;
+  mouseY: number;
+}
+
+interface Square {
+  x: number;
+  y: number;
+}
+
+const BackgroundPattern: React.FC<BackgroundPatternProps> = ({ mouseX, mouseY }) => {
+  const [squares, setSquares] = useState<Square[]>([]);
 
   useEffect(() => {
     const generateSquares = () => {
-      const newSquares = [];
+      const newSquares: Square[] = [];
       const spacing = 40;
       const width = window.innerWidth;
-      const height = 600; // Adjust based on your section height
+      const height = 600;
 
       for (let x = 0; x < width; x += spacing) {
         for (let y = 0; y < height; y += spacing) {
@@ -88,7 +110,7 @@ const BackgroundPattern = ({ mouseX, mouseY }) => {
   );
 };
 
-const Achievements = () => {
+const Achievements: React.FC = () => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -96,7 +118,7 @@ const Achievements = () => {
 
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePos({
       x: e.clientX - rect.left,

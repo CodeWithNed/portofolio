@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
 import Achievements from './components/Achievements';
@@ -6,8 +6,6 @@ import Projects from './components/Projects';
 import Timeline from './components/Timeline';
 import Contact from './components/Contact';
 import Terminal from './components/Terminal';
-import CustomCursor from './components/CustomCursor';
-import Navigation from './components/Navigation';
 
 function App() {
   const [showTerminal, setShowTerminal] = useState(false);
