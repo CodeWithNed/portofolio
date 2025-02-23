@@ -1,64 +1,74 @@
 import { useState } from 'react';
 import { motion , AnimatePresence } from 'framer-motion';
 
-const categories = ['All', 'Web', 'Mobile', 'Data Science', 'Machine Learning'];
+const categories = ['All', 'Web', 'Data Science', 'Machine Learning', 'System Design'];
 
 const projects = [
   {
-    title: 'E-commerce Platform',
-    description: 'A full-featured online shopping platform with real-time inventory management',
+    title: 'LLM Based Calendar Task Extractor',
+    description: 'Privacy-focused task management system using LLMs for automated task extraction from documents and emails with edge processing capabilities',
     image: 'https://picsum.photos/400/300?random=1',
-    category: 'Web',
-    tech: ['React', 'Node.js', 'MongoDB'],
+    category: 'Machine Learning',
+    tech: ['FastAPI', 'Python', 'HuggingFace', 'Tesseract', 'Ollama'],
     demo: 'https://demo.com',
     github: 'https://github.com',
   },
   {
-    title: 'ML-Powered Image Recognition',
-    description: 'Deep learning model for real-time object detection and classification',
+    title: 'Smart Bill Analyzer',
+    description: 'Intelligent system for classifying and extracting data from various types of bills and receipts using multiple OCR services',
     image: 'https://picsum.photos/400/300?random=2',
     category: 'Machine Learning',
-    tech: ['Python', 'TensorFlow', 'OpenCV'],
+    tech: ['PaddleOCR', 'AWS Textract', 'Azure Form Recognizer'],
     demo: 'https://demo.com',
     github: 'https://github.com',
   },
   {
-    title: 'Data Analytics Dashboard',
-    description: 'Interactive visualization platform for big data analysis',
+    title: 'Cultivate.AI',
+    description: 'Agricultural recommendation system using ML to suggest optimal crops based on soil parameters with interactive map interface',
     image: 'https://picsum.photos/400/300?random=3',
     category: 'Data Science',
-    tech: ['Python', 'Pandas', 'D3.js'],
+    tech: ['Python', 'React', 'Flask', 'Jupyter Notebook', 'Ollama'],
     demo: 'https://demo.com',
     github: 'https://github.com',
   },
   {
-    title: 'Mobile Fitness App',
-    description: 'Cross-platform fitness tracking application with social features',
+    title: 'Time Series Book Sales Forecaster',
+    description: 'Advanced forecasting system for predicting book publication sales using historical data from 1800s',
     image: 'https://picsum.photos/400/300?random=4',
-    category: 'Mobile',
-    tech: ['React Native', 'Firebase', 'Redux'],
+    category: 'Data Science',
+    tech: ['Python', 'Prophet', 'Scikit-learn', 'NumPy'],
     demo: 'https://demo.com',
     github: 'https://github.com',
   },
   {
-    title: 'Smart Home IoT Platform',
-    description: 'IoT platform for managing and monitoring smart home devices',
+    title: 'Event-Driven Inventory Management',
+    description: 'Microservice-based system for automated order processing and inventory updates with monitoring capabilities',
     image: 'https://picsum.photos/400/300?random=5',
-    category: 'Web',
-    tech: ['React', 'Node.js', 'MQTT'],
+    category: 'System Design',
+    tech: ['Spring Boot', 'Apache Kafka', 'Spring Security', 'Netflix Eureka', 'Keycloak'],
     demo: 'https://demo.com',
     github: 'https://github.com',
   },
   {
-    title: 'Sentiment Analysis Tool',
-    description: 'NLP-based sentiment analysis for social media monitoring',
+    title: 'Renewable Energy Site Selector',
+    description: 'ML model for identifying optimal locations for renewable energy projects using geospatial analysis',
     image: 'https://picsum.photos/400/300?random=6',
+    category: 'Data Science',
+    tech: ['Python', 'Scikit-learn', 'NumPy', 'Geospatial Analysis'],
+    demo: 'https://demo.com',
+    github: 'https://github.com',
+  },
+  {
+    title: 'Audio Transcription Service',
+    description: 'Advanced audio transcription tool leveraging AI technologies for speech-to-text conversion',
+    image: 'https://picsum.photos/400/300?random=7',
     category: 'Machine Learning',
-    tech: ['Python', 'NLTK', 'scikit-learn'],
+    tech: ['Spring Boot', 'Spring AI', 'OpenAI'],
     demo: 'https://demo.com',
     github: 'https://github.com',
   }
 ];
+
 
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('All');
