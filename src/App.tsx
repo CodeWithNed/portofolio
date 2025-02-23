@@ -41,7 +41,7 @@ function App() {
         <Navigation /> */}
         <Hero />
         <Projects />
-        <Achievements />
+        {/* <Achievements /> */}
         
         <Timeline />
         <Skills />
