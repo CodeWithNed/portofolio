@@ -1,235 +1,226 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { useState } from "react";
+import image1 from "/src/assets/cryptx/1.1.jpg";
+import image2 from "/src/assets/cryptx/1.2.jpg";
+import image3 from "/src/assets/datathon/2.1.jpg";
+import image4 from "/src/assets/apan/3.1.jpg";
+import image5 from "/src/assets/photo.png";
+
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+}
 
 interface Achievement {
-  icon: string;
-  metric: string;
+  title: string;
+  images: string[];
   description: string;
+  link: string;
+  pressRelease: string;
+  team: TeamMember[];
 }
 
-const achievements: Achievement[] = [
-  {
-    icon: '🚀',
-    metric: '10+ Projects',
-    description: 'Completed successfully',
-  },
-  {
-    icon: '👥',
-    metric: '50+ Clients',
-    description: 'Worldwide satisfaction',
-  },
-  {
-    icon: '⭐',
-    metric: '5+ Years',
-    description: 'Professional experience',
-  },
-  {
-    icon: '🏆',
-    metric: '15+ Awards',
-    description: 'Industry recognition',
-  },
-];
-
-interface PatternSquareProps {
-  x: number;
-  y: number;
-  mouseX: number;
-  mouseY: number;
+interface ImageCarouselProps {
+  images: string[];
 }
 
-const PatternSquare: React.FC<PatternSquareProps> = ({ x, y, mouseX, mouseY }) => {
-  const maxDistance = 100;
+interface AchievementProps {
+  achievement: Achievement;
+}
+
+const ChevronLeftIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 18l-6-6 6-6" />
+  </svg>
+);
+
+const ChevronRightIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 18l6-6-6-6" />
+  </svg>
+);
+
+const achievements = [
+    {
+      title: "SLIIT Datathon 2025 - 1st Place",
+      images: [
+        image3
+        
+      ],
+      description: "Developed time series forecasting model for Wiley Publishing Company to predict book sales from historical data dating back to 1800s, achieving highest accuracy among all teams.",
+      link: "https://example.com/datathon",
+      pressRelease: "https://example.com/press",
+      team: [
+        { name: "Nadun Kumarasinghe", role: "Lead Data Scientist", image: image5 }
+      ]
+    },
+    {
+      title: "Japura CryptX Hackathon 2025 - 2nd Place",
+      images: [
+        image1,
+        image2
+      ],
+      description: "Created Cultivate.AI, an agricultural recommendation system using ML to optimize crop selection based on soil parameters, featuring interactive map interface and step-by-step cultivation roadmap.",
+      link: "https://example.com/cryptx",
+      pressRelease: "https://example.com/press",
+      team: [
+        { name: "Nadun Kumarasinghe", role: "Full Stack Developer", image: image5 }
+      ]
+    },
+    // {
+    //   title: "United Nations Recognition 2017",
+    //   images: [
+    //     image4
+    //   ],
+    //   description: "Named Best School Quizzer in Sri Lanka by the United Nations, recognizing exceptional academic achievement and knowledge breadth.",
+    //   link: "https://example.com/un-recognition",
+    //   pressRelease: "https://example.com/press",
+    //   team: [
+    //     { name: "Nadun Kumarasinghe", role: "Award Recipient", image: image5 }
+    //   ]
+    // },
+    {
+      title: "APAN56 Datathon 2023 - Finalist",
+      images: [
+        image4
+      ],
+      description: "Developed ML model for renewable energy site selection in Sri Lanka using geospatial analysis and advanced machine learning techniques.",
+      link: "https://example.com/apan56",
+      pressRelease: "https://example.com/press",
+      team: [
+        { name: "Nadun Kumarasinghe", role: "ML Engineer", image: image5 }
+      ]
+    }
+  ];
   
-  const distance = Math.sqrt(
-    Math.pow(x - mouseX, 2) + Math.pow(y - mouseY, 2)
-  );
-  
-  const opacity = Math.max(0, 1 - distance / maxDistance);
+
+const ImageCarousel = ({ images }: ImageCarouselProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   return (
-    <motion.div
-      className="absolute w-5 h-5 border border-gray-600"
-      style={{
-        left: x,
-        top: y,
-        opacity,
-      }}
-      initial={{ scale: 0 }}
-      animate={{ scale: opacity }}
-      transition={{ duration: 0.2 }}
-    />
-  );
-};
-
-interface BackgroundPatternProps {
-  mouseX: number;
-  mouseY: number;
-}
-
-interface Square {
-  x: number;
-  y: number;
-}
-
-const BackgroundPattern: React.FC<BackgroundPatternProps> = ({ mouseX, mouseY }) => {
-  const [squares, setSquares] = useState<Square[]>([]);
-
-  useEffect(() => {
-    const generateSquares = () => {
-      const newSquares: Square[] = [];
-      const spacing = 40;
-      const width = window.innerWidth;
-      const height = 600;
-
-      for (let x = 0; x < width; x += spacing) {
-        for (let y = 0; y < height; y += spacing) {
-          newSquares.push({ x, y });
-        }
-      }
-      setSquares(newSquares);
-    };
-
-    generateSquares();
-    window.addEventListener('resize', generateSquares);
-    return () => window.removeEventListener('resize', generateSquares);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {squares.map((square, i) => (
-        <PatternSquare
-          key={i}
-          x={square.x}
-          y={square.y}
-          mouseX={mouseX}
-          mouseY={mouseY}
-        />
-      ))}
+    <div className="relative w-full h-64 overflow-hidden rounded-t-xl">
+      <div className="relative w-full h-full">
+        {images.map((src: string, idx: number) => (
+          <img
+            key={idx}
+            src={src}
+            alt={`Achievement ${idx + 1}`}
+            className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-300 ${
+              idx === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+        ))}
+      </div>
+      
+      <button 
+        onClick={prevImage}
+        className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
+      >
+        <ChevronLeftIcon />
+      </button>
+      <button 
+        onClick={nextImage}
+        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
+      >
+        <ChevronRightIcon />
+      </button>
+      
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+        {images.map((_: string, idx: number) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentIndex(idx)}
+            className={`w-2 h-2 rounded-full transition-all ${
+              idx === currentIndex ? 'bg-white w-4' : 'bg-white/50'
+            }`}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
-const Achievements: React.FC = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 50,
-      scale: 0.9
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-        duration: 0.5
-      }
-    }
-  };
-
-  const iconVariants = {
-    hidden: { scale: 0 },
-    visible: { 
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        delay: 0.2
-      }
-    }
-  };
-
-  const textVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { 
-        duration: 0.5,
-        delay: 0.3
-      }
-    }
-  };
-
-  return (
-    <section 
-      ref={ref} 
-      className="py-20 relative"
-      onMouseMove={handleMouseMove}
-    >
-      <BackgroundPattern mouseX={mousePos.x} mouseY={mousePos.y} />
+const Achievement = ({ achievement }: AchievementProps) => (
+  <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden transform transition-transform duration-300 hover:scale-[1.02]">
+    <ImageCarousel images={achievement.images} />
+    
+    <div className="p-6">
+      <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">
+        {achievement.title}
+      </h3>
       
-      <motion.h2 
-        initial={{ opacity: 0, y: -20 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.5 }}
-        className="text-4xl font-bold text-center mb-12 text-white relative z-10"
-      >
-        Achievements
-      </motion.h2>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
+        {achievement.description}
+      </p>
       
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide relative z-10"
-      >
-        <div className="flex space-x-6 px-4 min-w-full">
-          {achievements.map((achievement, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              whileHover={{ 
-                scale: 1.05,
-                transition: { type: "spring", stiffness: 300 }
-              }}
-              whileTap={{ scale: 0.95 }}
-              className={`flex-none w-80 snap-center p-6 rounded-lg shadow-xl
-                ${index % 2 === 0 ? 'bg-[#e0f906]' : 'bg-[#a6a3b4]'}
-                cursor-pointer`}
+      <div className="flex gap-4 mb-6">
+        <a
+          href={achievement.link}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Learn More
+        </a>
+        <a
+          href={achievement.pressRelease}
+          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        >
+          Github
+        </a>
+      </div>
+      
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+        <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3">
+          Team Members
+        </h4>
+        <div className="flex items-center gap-3">
+          {achievement.team.map((member: TeamMember, idx: number) => (
+            <div
+              key={idx}
+              className="group relative"
             >
-              <motion.div 
-                variants={iconVariants}
-                className="text-4xl mb-4"
-              >
-                {achievement.icon}
-              </motion.div>
-              <motion.div variants={textVariants}>
-                <h3 className="text-2xl font-bold mb-2">{achievement.metric}</h3>
-                <p className="text-gray-700">{achievement.description}</p>
-              </motion.div>
-            </motion.div>
+              <img
+                src={member.image}
+                alt={member.name}
+                className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-700"
+              />
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                {member.name}
+                <br />
+                {member.role}
+              </div>
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
+    </div>
+  </div>
+);
+
+const Achievements = () => {
+  return (
+    <section className="py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4">
+        <h3 className="text-xl text-center text-gray-500 font-semibold">
+          Explore my recent
+        </h3>
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+          Achievements Unveiled
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {achievements.map((achievement, idx) => (
+            <Achievement key={idx} achievement={achievement} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

@@ -1,12 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-interface Milestone {
-  date: string;
-  title: string;
-  description: string;
-  icon: string;
-}
 
 const milestones = [
   {

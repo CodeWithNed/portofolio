@@ -40,9 +40,8 @@ function App() {
         {/* <CustomCursor />
         <Navigation /> */}
         <Hero />
+        <Achievements />
         <Projects />
-        {/* <Achievements /> */}
-        
         <Timeline />
         <Skills />
         <Contact />
