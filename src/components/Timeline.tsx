@@ -1,12 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-interface Milestone {
-  date: string;
-  title: string;
-  description: string;
-  icon: string;
-}
 
 const milestones = [
   {
@@ -75,7 +69,7 @@ const Timeline: React.FC = () => {
             >
               <div className="w-1/2 px-6">
                 <div 
-                  className={`bg-gray-700 dark:bg-secondary p-6 rounded-lg shadow-lg
+                  className={`bg-gray-700 dark:bg-primary p-6 rounded-lg shadow-lg
                     hover:bg-opacity-90 border border-primary/20 relative ${
                     index % 2 === 0 ? 'text-right' : 'text-left'
                   }`}
@@ -83,12 +77,12 @@ const Timeline: React.FC = () => {
                   {/* Year badge */}
                   <div className={`absolute ${
                     index % 2 === 0 ? '-left-3' : '-right-3'
-                  } top-6 bg-primary text-gray-900 px-2 py-1 rounded text-sm font-bold`}>
+                  } top-6 bg-primary dark:bg-secondary text-gray-900 px-2 py-1 rounded text-sm font-bold`}>
                     {milestone.date}
                   </div>
 
                   <div className="text-3xl mb-2">{milestone.icon}</div>
-                  <h3 className="text-xl font-bold text-primary">{milestone.title}</h3>
+                  <h3 className="text-xl font-bold text-secondary">{milestone.title}</h3>
                   <p className="text-gray-200 dark:text-black">{milestone.description}</p>
                 </div>
               </div>

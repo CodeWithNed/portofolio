@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
-import Achievements from './components/Achievements';
 import Projects from './components/Projects';
 import Timeline from './components/Timeline';
-import Contact from './components/Contact';
 import Terminal from './components/Terminal';
+import Footer from './components/Footer';
+import Achievements from './components/Achievements';
+
 
 function App() {
   const [showTerminal, setShowTerminal] = useState(false);
@@ -40,12 +41,12 @@ function App() {
         {/* <CustomCursor />
         <Navigation /> */}
         <Hero />
+        <Achievements/>
         <Projects />
-        {/* <Achievements /> */}
-        
         <Timeline />
         <Skills />
-        <Contact />
+        {/* <Contact /> */}
+        <Footer />
         {showTerminal && (
           <div className="fixed bottom-0 left-0 w-full h-64 bg-black bg-opacity-90">
             <Terminal onClose={() => setShowTerminal(false)} />

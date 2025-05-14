@@ -125,6 +125,10 @@ const Projects = () => {
 
   return (
     <section className="py-20">
+      
+      <h3 className="text-xl text-center text-gray-500 font-semibold">
+            Explore my recent
+        </h3>
       <motion.h2 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

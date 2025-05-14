@@ -11,6 +11,9 @@ export default {
         primary: '#e0f906',
         secondary: '#a6a3b4',
       },
+      fontFamily: {
+        'sans': ['poppins'],
+      },
     },
   },
   plugins: [],

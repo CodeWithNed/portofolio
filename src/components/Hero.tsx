@@ -154,7 +154,7 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex items-center justify-center gap-8 mb-8"
+          className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8"
         >
           <motion.div 
             whileHover={{ scale: 1.05 }}
@@ -176,6 +176,7 @@ const Hero: React.FC = () => {
           </motion.div>
         </motion.div>
 
+
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -185,7 +186,7 @@ const Hero: React.FC = () => {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="/cv.pdf"
+            href="https://drive.google.com/uc?export=download&id=1ItFgQ8zh9O8whetVQx2QzqXf5mC-BJQZ"
             download
             className="flex items-center gap-2 px-6 py-3 bg-primary text-gray-900 rounded-full hover:bg-opacity-90 transition-colors"
           >
